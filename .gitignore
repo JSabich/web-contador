@@ -13,3 +13,12 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+# Configuración local
+/includes/config.php
+
+# Logs
+*.log
+
+# Cache / temporales
+/tmp
+/cache

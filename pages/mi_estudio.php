@@ -1,7 +1,7 @@
 <?php
 $pageTitle = "Mi Estudio";
 require_once __DIR__ . "/../includes/config.php";
-include BASE_PATH . "includes/header.php";
+include BASE_PATH . "/includes/header.php";
 ?>
 
 <main class="container py-5">
@@ -59,4 +59,4 @@ include BASE_PATH . "includes/header.php";
 
 </main>
 
-<?php include BASE_PATH . "includes/footer.php"; ?>
+<?php include BASE_PATH . "/includes/footer.php"; ?>
