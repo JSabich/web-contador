@@ -1,10 +1,19 @@
 <?php
-require_once __DIR__ . '/includes/config.php';
+$host = 'localhost';
+$db   = 'web_contador_db';
+$user = 'webuser';
+$pass = 'WebContador2025!';
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
 try {
-    $pdo = getPDO();
-    echo "Conexión OK a DB: " . DB_NAME . "<br>";
-    $r = $pdo->query("SELECT NOW() as now")->fetch();
-    echo "Servidor MySQL responde: " . $r['now'];
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
+    $pdo = new PDO($dsn, $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+
+    echo "Conexión OK a la base de datos";
+} catch (PDOException $e) {
+    echo "Error de conexión: " . $e->getMessage();
 }
