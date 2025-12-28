@@ -1,19 +1,55 @@
 <?php
-// --------------------------------------------------
-// ADMIN - LISTADO DE CONSULTAS
-// --------------------------------------------------
-
-$pageTitle = "Consultas recibidas";
-
-// Configuración + conexión DB
+// ==================================================
+// CONFIGURACIÓN + CONEXIÓN
+// ==================================================
 require_once __DIR__ . "/../../includes/config.php";
 
-// Header común del sitio
-include __DIR__ . "/../../includes/header.php";
+// ==================================================
+// PROTECCIÓN BÁSICA DEL ADMIN (HTTP AUTH)
+// ==================================================
+$ADMIN_USER = 'admin';
+$ADMIN_PASS = 'WebContador2025!';
 
-// --------------------------------------------------
-// TRAER CONSULTAS DE LA BASE
-// --------------------------------------------------
+if (
+    !isset($_SERVER['PHP_AUTH_USER']) ||
+    $_SERVER['PHP_AUTH_USER'] !== $ADMIN_USER ||
+    $_SERVER['PHP_AUTH_PW'] !== $ADMIN_PASS
+) {
+    header('WWW-Authenticate: Basic realm="Area Administrativa"');
+    header('HTTP/1.0 401 Unauthorized');
+    echo 'Acceso restringido.';
+    exit;
+}
+
+// ==================================================
+// ACTUALIZAR ESTADO DE CONSULTA (POST)
+// ==================================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST'
+    && isset($_POST['consulta_id'], $_POST['estado'])
+) {
+    $consulta_id = (int) $_POST['consulta_id'];
+    $estado = $_POST['estado'];
+
+    $estados_validos = ['nueva', 'respondida', 'cerrada'];
+
+    if (in_array($estado, $estados_validos, true)) {
+
+        $stmt = $mysqli->prepare(
+            "UPDATE consultas SET estado = ? WHERE id = ?"
+        );
+
+        if ($stmt) {
+            $stmt->bind_param("si", $estado, $consulta_id);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
+}
+
+// ==================================================
+// OBTENER CONSULTAS
+// ==================================================
+$pageTitle = "Consultas recibidas";
 
 $consultas = [];
 
@@ -44,11 +80,23 @@ if ($result) {
 } else {
     die("Error al obtener consultas.");
 }
+
+// ==================================================
+// HEADER
+// ==================================================
+include __DIR__ . "/../../includes/header.php";
 ?>
 
 <main class="container py-5">
 
     <h2 class="mb-4">Consultas recibidas</h2>
+    <div class="mb-3">
+    <a href="<?= BASE_URL ?>pages/admin/exportar_consultas.php"
+       class="btn btn-success">
+        Exportar a CSV
+    </a>
+</div>
+
 
     <?php if (empty($consultas)): ?>
         <div class="alert alert-info">
@@ -80,7 +128,27 @@ if ($result) {
                             <td style="max-width: 400px;">
                                 <?= nl2br(htmlspecialchars($c['mensaje'])) ?>
                             </td>
-                            <td><?= htmlspecialchars($c['estado']) ?></td>
+                            <td>
+                                <form method="post" class="d-flex gap-2 align-items-center m-0">
+                                    <input type="hidden" name="consulta_id" value="<?= (int)$c['id'] ?>">
+
+                                    <select name="estado" class="form-select form-select-sm">
+                                        <option value="nueva" <?= $c['estado'] === 'nueva' ? 'selected' : '' ?>>
+                                            Nueva
+                                        </option>
+                                        <option value="respondida" <?= $c['estado'] === 'respondida' ? 'selected' : '' ?>>
+                                            Respondida
+                                        </option>
+                                        <option value="cerrada" <?= $c['estado'] === 'cerrada' ? 'selected' : '' ?>>
+                                            Cerrada
+                                        </option>
+                                    </select>
+
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        Guardar
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -92,3 +160,4 @@ if ($result) {
 </main>
 
 <?php include __DIR__ . "/../../includes/footer.php"; ?>
+

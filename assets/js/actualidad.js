@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!container) return;
 
     const CONFIG = {
-        apiUrl: "https://dolarapi.com/v1/dolares",
-        // Traemos varios para que se note el carrusel
-        tipos: ["oficial", "blue", "mep", "ccl"],
+        dolarApiUrl: "https://dolarapi.com/v1/dolares",
+        riesgoApiUrl: "https://api.argentinadatos.com/v1/finanzas/indices/riesgo-pais",
+        tiposDolar: ["oficial", "blue", "mep", "ccl"],
         carouselId: "carouselIndicadores",
         interval: 4000
     };
@@ -17,20 +17,52 @@ document.addEventListener("DOMContentLoaded", () => {
         ccl: "Contado con Liquidación"
     };
 
-    fetch(CONFIG.apiUrl)
+    // ==================================================
+    // FETCH DÓLAR
+    // ==================================================
+    const fetchDolar = fetch(CONFIG.dolarApiUrl)
         .then(r => {
             if (!r.ok) throw new Error("Error API dólar");
             return r.json();
         })
         .then(data => {
-            const indicadores = data
-                .filter(item => CONFIG.tipos.includes(item.casa))
+            return data
+                .filter(item => CONFIG.tiposDolar.includes(item.casa))
                 .map(item => ({
                     titulo: item.nombre.replace("Dólar ", ""),
                     valor: `$${Number(item.venta).toLocaleString("es-AR")}`,
                     referencia: REFERENCIAS[item.casa] || "Referencia"
                 }));
+        });
 
+    // ==================================================
+    // FETCH RIESGO PAÍS
+    // ==================================================
+    const fetchRiesgo = fetch(CONFIG.riesgoApiUrl)
+        .then(r => {
+            if (!r.ok) throw new Error("Error API riesgo país");
+            return r.json();
+        })
+        .then(data => {
+            // La API devuelve un array; usamos el último valor
+            const ultimo = data[data.length - 1];
+
+            return {
+                titulo: "Riesgo País",
+                valor: `${Number(ultimo.valor).toLocaleString("es-AR")} pts`,
+                referencia: `Fuente: ArgentinaDatos (${ultimo.fecha})`
+            };
+        });
+
+    // ==================================================
+    // EJECUCIÓN CONJUNTA
+    // ==================================================
+    Promise.all([fetchDolar, fetchRiesgo])
+        .then(([indicadoresDolar, indicadorRiesgo]) => {
+            const indicadores = [
+                ...indicadoresDolar,
+                indicadorRiesgo
+            ];
             renderCarousel(indicadores);
         })
         .catch(() => {
@@ -41,7 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         });
 
+    // ==================================================
+    // RENDER CARRUSEL
+    // ==================================================
     function renderCarousel(indicadores) {
+
         const carousel = document.createElement("div");
         carousel.id = CONFIG.carouselId;
         carousel.className = "carousel slide";
@@ -54,7 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
         inner.className = "carousel-inner";
 
         indicadores.forEach((item, index) => {
-            // Indicadores (puntitos)
+
+            // Puntitos indicadores
             const btn = document.createElement("button");
             btn.type = "button";
             btn.setAttribute("data-bs-target", `#${CONFIG.carouselId}`);
@@ -67,13 +104,13 @@ document.addEventListener("DOMContentLoaded", () => {
             slide.className = `carousel-item${index === 0 ? " active" : ""}`;
 
             const card = document.createElement("div");
-            card.className = "p-3 border rounded";
+            card.className = "p-3 border rounded text-center";
 
             const titulo = document.createElement("strong");
             titulo.textContent = item.titulo;
 
             const valor = document.createElement("div");
-            valor.className = "fs-4";
+            valor.className = "fs-4 my-1";
             valor.textContent = item.valor;
 
             const ref = document.createElement("small");
@@ -89,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         carousel.appendChild(indicators);
         carousel.appendChild(inner);
+
         container.innerHTML = "";
         container.appendChild(carousel);
 

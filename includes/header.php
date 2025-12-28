@@ -1,4 +1,10 @@
 <?php require_once __DIR__ . '/config.php'; ?>
+<?php
+function nav_active(string $file): string
+{
+    return basename($_SERVER['PHP_SELF']) === $file ? 'active' : '';
+}
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -58,12 +64,12 @@
 
                 <div class="collapse navbar-collapse" id="mainMenu">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>pages/mi_estudio.php">Mi Estudio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>pages/servicios.php">Servicios</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>pages/actualidad.php">Actualidad</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>pages/links_de_interes.php">Links de interés</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>pages/contacto.php">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link <?= nav_active('index.php') ?>" href="<?= BASE_URL ?>">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link <?= nav_active('mi_estudio.php') ?>" href="<?= BASE_URL ?>pages/mi_estudio.php">Mi Estudio</a></li>
+                        <li class="nav-item"><a class="nav-link <?= nav_active('servicios.php') ?>" href="<?= BASE_URL ?>pages/servicios.php">Servicios</a></li>
+                        <li class="nav-item"><a class="nav-link <?= nav_active('actualidad.php') ?>" href="<?= BASE_URL ?>pages/actualidad.php">Actualidad</a></li>
+                        <li class="nav-item"><a class="nav-link <?= nav_active('links_de_interes.php') ?>" href="<?= BASE_URL ?>pages/links_de_interes.php">Links de interés</a></li>
+                        <li class="nav-item"><a class="nav-link <?= nav_active('contacto.php') ?>" href="<?= BASE_URL ?>pages/contacto.php">Contacto</a></li>
                     </ul>
                 </div>
 
