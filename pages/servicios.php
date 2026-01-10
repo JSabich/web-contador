@@ -60,6 +60,11 @@ require_once __DIR__ . "/../includes/header.php";
             <li>Asesoramiento para emprendedores.</li>
             <li>Plan de negocios.</li>
             <li>Proyecciones.</li>
+            <li>Registro de marcas.</li>
+            <li>Alta importador.</li>
+            <li> Inscripción SIPRO (PROVEEDOR DEL ESTADO).</li>
+        </ul>
+        </ul>
         </ul>
     </section>
 

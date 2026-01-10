@@ -16,9 +16,11 @@ include __DIR__ . "/../includes/header.php";
     <section class="mb-5">
         <h3>Organismos Públicos</h3>
         <ul>
-            <li><a href="https://www.afip.gob.ar" target="_blank">AFIP</a></li>
+            <li><a href="https://www.arca.gob.ar" target="_blank">ARCA</a></li>
             <li><a href="https://www.anses.gob.ar" target="_blank">ANSES</a></li>
-            <li><a href="https://www.argentina.gob.ar" target="_blank">Portal del Estado Argentino</a></li>
+            <li><a href="https://www.agip.gob.ar" target="_blank">AGIP</a></li>
+            <li><a href="https://web.arba.gov.ar/" target="_blank">ARBA</a></li>
+            <li><a href="https://www.argentina.gob.ar/inti" target="_blank">INTI</a></li>
         </ul>
     </section>
 

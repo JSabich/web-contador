@@ -69,7 +69,7 @@ function nav_active(string $file): string
                         <li class="nav-item"><a class="nav-link <?= nav_active('servicios.php') ?>" href="<?= BASE_URL ?>pages/servicios.php">Servicios</a></li>
                         <li class="nav-item"><a class="nav-link <?= nav_active('actualidad.php') ?>" href="<?= BASE_URL ?>pages/actualidad.php">Actualidad</a></li>
                         <li class="nav-item"><a class="nav-link <?= nav_active('links_de_interes.php') ?>" href="<?= BASE_URL ?>pages/links_de_interes.php">Links de interés</a></li>
-                        <li class="nav-item"><a class="nav-link <?= nav_active('contacto.php') ?>" href="<?= BASE_URL ?>pages/contacto.php">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link <?= nav_active('contacto.php') ?>" href="<?= BASE_URL ?>pages/contacto.php">Contacto</a>    </li>
                     </ul>
                 </div>
 
