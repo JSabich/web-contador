@@ -44,10 +44,10 @@ include BASE_PATH . "/includes/header.php";
                 </p>
 
                 <ul>
-                    <li>Contadores Públicos Ernesto Nuni y Tito Cossa</li>
+                    <li>Contadores Públicos Ernesto Nuni y German Grillo</li>
                     <li>Licenciado en Recursos Humanos Pedro Bartolo</li>
-                    <li>Dra. Pepita Sánchez</li>
-                    <li>Licenciado en Marketing Tereso Con Olor</li>
+                    <li>Dra. Raquel Sánchez</li>
+                    <li>Licenciado en Marketing Laura García</li>
                 </ul>
 
                 <p>
