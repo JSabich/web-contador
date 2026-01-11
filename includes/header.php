@@ -18,7 +18,7 @@ function nav_active(string $file): string
 
     <!-- CSS propio -->
     <link rel="stylesheet"
-          href="<?= BASE_URL; ?>assets/css/styles.css?v=<?= filemtime(__DIR__ . '/../assets/css/styles.css'); ?>">
+        href="<?= BASE_URL; ?>assets/css/styles.css?v=<?= filemtime(__DIR__ . '/../assets/css/styles.css'); ?>">
 </head>
 
 <body>
@@ -68,7 +68,7 @@ function nav_active(string $file): string
                         <li class="nav-item"><a class="nav-link <?= nav_active('mi_estudio.php') ?>" href="<?= BASE_URL ?>pages/mi_estudio.php">Mi Estudio</a></li>
                         <li class="nav-item"><a class="nav-link <?= nav_active('servicios.php') ?>" href="<?= BASE_URL ?>pages/servicios.php">Servicios</a></li>
                         <li class="nav-item"><a class="nav-link <?= nav_active('actualidad.php') ?>" href="<?= BASE_URL ?>pages/actualidad.php">Actualidad</a></li>
-                        <li class="nav-item"><a class="nav-link <?= nav_active('links_de_interes.php') ?>" href="<?= BASE_URL ?>pages/links_de_interes.php">Links de interés</a></li>
+                        <li class="nav-item"><a class="nav-link <?= nav_active('recursos.php') ?>" href="<?= BASE_URL ?>pages/recursos.php">Recursos</a></li>
                         <li class="nav-item"><a class="nav-link <?= nav_active('contacto.php') ?>" href="<?= BASE_URL ?>pages/contacto.php">Contacto</a>    </li>
                     </ul>
                 </div>
